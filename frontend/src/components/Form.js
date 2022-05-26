@@ -13,6 +13,11 @@ function Form(props) {
     .then(resp => props.updatedData(resp))
     .cath(error=> console.log(error))
   }
+  const insertArticle = () =>{
+    APIService.InsertArticle({title, body})
+    .then(resp => props.insertedArticle(resp))
+    .catch(error => console.log(error))
+  }
   return (
     <div>
         {props.article ?(
@@ -21,7 +26,11 @@ function Form(props) {
             <input type='text' className='form-control' placeholder='Please Enter Title' value={title} onChange={(e) => setTitle(e.target.value)}></input>
             <label htmlFor ="body" className='form-label'>Description</label>
             <textarea value={body} rows={5} type='text' className='form-control' placeholder='Please Enter Description' onChange={(e) => setBody(e.target.value)}></textarea>
-            <button className='btn btn-success mt-3' onClick={updateArticle}>Update</button>
+
+            {
+              props.article.id ? <button className='btn btn-success mt-3' onClick={updateArticle}>Update</button>:
+                <button className='btn btn-success mt-3' onClick={insertArticle}>Insert</button>
+            }
           </div>
         ):null }
     </div>

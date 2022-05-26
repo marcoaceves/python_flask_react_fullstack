@@ -13,7 +13,7 @@ function App() {
     fetch('http://127.0.0.1:5000/get', {
       'method':'GET',
       headers: {
-        'Content-Type':'applications/json'
+        'Content-Type':'application/json'
       }
     })
     .then(resp => resp.json())
@@ -35,13 +35,36 @@ function App() {
     })
     setArticles(new_article)
   }
+  const openForm = () => {
+    setEditedArticle({title:'', body:''})
+  }
+  const insertedArticle = (article) => {
+    const new_articles = [...articles, article]
+    setArticles(new_articles)
+  }
 
-
+  const deleteArticle = (article) =>{
+    const new_articles = articles.filter(myarticle =>{
+      if(myarticle.id === article.id){
+        return false;
+      }
+      return true
+    })
+    setArticles(new_articles)
+  }
   return (
     <div className="App">
-      <h1>Flask and ReactJS Course</h1>
-        <ArticleList articles={articles} editArticle = {editArticle}/>
-        {editedArticle ? <Form article = {editedArticle} updatedData={updatedData}/> : null }
+      <div className='row'>
+        <div className='col'>
+          <h1>Flask and ReactJS Course</h1>
+        </div>
+        <div className='col'>
+          <button className='btn btn-success' onClick={openForm}>Insert Article</button>
+        </div>
+      </div>
+      
+        <ArticleList articles={articles} editArticle = {editArticle} deleteArticle={deleteArticle}/>
+        {editedArticle ? <Form article = {editedArticle} updatedData={updatedData} insertedArticle= {insertedArticle} /> : null }
 
 
     </div>
